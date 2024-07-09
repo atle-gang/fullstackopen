@@ -1,5 +1,10 @@
 const Header = (props) => {
-  return <h1>{props.course}</h1>;
+  console.log(props);
+  return (
+    <div>
+      <h1>{props.course}</h1>
+    </div>
+  );
 };
 
 export { Header };

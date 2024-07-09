@@ -1,9 +1,13 @@
-const Total = () => {
-  const exercises1 = 10;
-  const exercises2 = 7;
-  const exercises3 = 14;
-  const total = exercises1 + exercises2 + exercises3;
-  return <p>Number of exercises {total}</p>;
+const Total = (props) => {
+  let total = 0;
+  props.parts.forEach((part) => {
+    total = total + part.exercises;
+  });
+  return (
+    <div>
+      <p>Number of exercises {total}</p>
+    </div>
+  );
 };
 
 export { Total };
