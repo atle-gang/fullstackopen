@@ -26,9 +26,11 @@ function App() {
 
   return (
     <div>
+      <h1>give feedback</h1>
       <Button handleClick={handleGood} text="good" />
       <Button handleClick={handleNeutral} text="neutral" />
       <Button handleClick={handleBad} text="bad" />
+      <h1>statistics</h1>
       <Statistics allClicks={allClicks} 
       goodClicks={good}
       neutralClicks={neutral}
