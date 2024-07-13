@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./App.css";
-import { Display } from "./Display";
+import { Statistics } from "./Statistics";
 import { Button } from "./Button";
 
 function App() {
@@ -29,7 +29,7 @@ function App() {
       <Button handleClick={handleGood} text="good" />
       <Button handleClick={handleNeutral} text="neutral" />
       <Button handleClick={handleBad} text="bad" />
-      <Display allClicks={allClicks} 
+      <Statistics allClicks={allClicks} 
       goodClicks={good}
       neutralClicks={neutral}
       badClicks={bad} />

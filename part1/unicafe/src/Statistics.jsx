@@ -1,4 +1,4 @@
-const Display = (props) => {
+const Statistics = (props) => {
   if (props.allClicks === 0) {
     return (
       <div>
@@ -29,4 +29,4 @@ const Display = (props) => {
   );
 };
 
-export { Display };
+export { Statistics };
