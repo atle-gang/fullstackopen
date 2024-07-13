@@ -1,3 +1,5 @@
+import { StatisticLine } from "./StatisticLine";
+
 const Statistics = (props) => {
   if (props.allClicks === 0) {
     return (
@@ -14,16 +16,16 @@ const Statistics = (props) => {
 
   const average = () => {
     const average = (props.goodClicks - props.badClicks) / props.allClicks;
-    return average;
+    return average ;
   };
 
   return (
     <div>
-      <p>good: {props.goodClicks}</p>
-      <p>neutral: {props.neutralClicks}</p>
-      <p>bad: {props.badClicks}</p>
-      <p>average: {average()}</p>
-      <p>positive: {positive()} %</p>
+      <StatisticLine text="good" value={props.goodClicks} />
+      <StatisticLine text="neutral" value={props.neutralClicks} />
+      <StatisticLine text="bad" value={props.badClicks} />
+      <StatisticLine text="average" value={average()} />
+      <StatisticLine text="positive" value={positive()} />
     </div>
   );
 };
