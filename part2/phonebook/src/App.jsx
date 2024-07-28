@@ -5,6 +5,7 @@ import { Names } from "./components/Names";
 const App = (props) => {
   const [persons, setPersons] = useState(props.persons);
   const [newName, setNewName] = useState("");
+  const [newNumber, setNewNumber] = useState("");
 
   const appendName = (event) => {
     event.preventDefault();
@@ -21,14 +22,21 @@ const App = (props) => {
     const nameObj = {
       name: newName,
       id: persons.length + 1,
+      number: newNumber,
     };
 
     setPersons(persons.concat(nameObj));
     setNewName("");
+    setNewNumber("");
   };
 
   const handleNameChange = (event) => {
     setNewName(event.target.value);
+    console.log(event.target.value);
+  };
+
+  const handleNumberChange = (event) => {
+    setNewNumber(event.target.value);
     console.log(event.target.value);
   };
 
@@ -38,6 +46,7 @@ const App = (props) => {
       <form onSubmit={appendName}>
         <div>
           name: <input value={newName} onChange={handleNameChange} />
+          number: <input value={newNumber} onChange={handleNumberChange} />
         </div>
         <div>
           <button type="submit">add</button>

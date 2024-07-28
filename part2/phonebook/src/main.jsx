@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { App } from './App.jsx'
 import './index.css'
 
-const persons = [{name: "Arto Hellas"}];
+const persons = [{name: "Arto Hellas", number: 12}];
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
