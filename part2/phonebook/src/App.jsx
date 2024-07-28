@@ -10,6 +10,14 @@ const App = (props) => {
     event.preventDefault();
     console.log(event.target);
 
+    const checkName = persons.some((person) => person.name === newName);
+
+    if (checkName) {
+      alert(`${newName} is already added to the phonebook`);
+      setNewName("");
+      return;
+    }
+
     const nameObj = {
       name: newName,
       id: persons.length + 1,
