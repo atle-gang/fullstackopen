@@ -1,16 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import { Names } from "./components/Names";
 import { Filter } from "./components/Filter";
 import { PersonForm } from "./components/PersonForm";
 import { Persons } from "./components/Persons";
+import axios from "axios";
 
-const App = (props) => {
-  const [persons, setPersons] = useState(props.persons);
+const App = () => {
+  const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [searchPerson, setSearchPerson] = useState("");
-  const [filteredPerson, setFilteredPerson] = useState(props.persons);
+  const [filteredPerson, setFilteredPerson] = useState([]);
+
+  useEffect(() => {
+    console.log("effect");
+    axios.get("http://localhost:3001/persons").then((response) => {
+      console.log("promise fulfilled");
+      setPersons(response.data);
+      setFilteredPerson(response.data);
+    });
+  }, []);
 
   const appendName = (event) => {
     event.preventDefault();
