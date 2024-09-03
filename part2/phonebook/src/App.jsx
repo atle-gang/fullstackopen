@@ -40,10 +40,12 @@ const App = () => {
       number: newNumber,
     };
 
-    setPersons(persons.concat(nameObj));
-    setFilteredPerson(filteredPerson.concat(nameObj));
-    setNewName("");
-    setNewNumber("");
+    axios.post("http://localhost:3001/persons", nameObj).then((response) => {
+      setPersons(persons.concat(nameObj));
+      setFilteredPerson(filteredPerson.concat(nameObj));
+      setNewName("");
+      setNewNumber("");
+    });
   };
 
   const handleNameChange = (event) => {
