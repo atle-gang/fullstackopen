@@ -25,13 +25,7 @@ const App = () => {
     event.preventDefault();
     console.log(event.target);
 
-    const checkName = persons.some((person) => person.name === newName);
-
-    if (checkName) {
-      alert(`${newName} is already added to the phone book`);
-      setNewName("");
-      return;
-    }
+    const checkName = persons.find((person) => person.name.toLowerCase() === newName.toLowerCase());
 
     const nameObj = {
       name: newName,
@@ -39,16 +33,33 @@ const App = () => {
       number: newNumber,
     };
 
-    personService.create(nameObj).then((returnedPerson) => {
-      setPersons(persons.concat(returnedPerson));
-      setFilteredPerson(filteredPerson.concat(returnedPerson));
-      setNewName("");
-      setNewNumber("");
-    });
+    if (checkName) {
+      const confirmed = window.confirm(
+        `${checkName.name} is already added to the phone book. Update number?`
+      );
+      if (!confirmed) {
+        return;
+      }
+      personService.update(checkName.id, nameObj).then((updatedPerson) => {
+        setPersons((previousPerson) => {
+          previousPerson.id === checkName.id ? updatedPerson : persons;
+        });
+        setFilteredPerson((previousFilteredPerson) => {
+          previousFilteredPerson.id === checkName.id ? updatedPerson : persons;
+        });
+      });
+    } else {
+      personService.create(nameObj).then((returnedPerson) => {
+        setPersons(persons.concat(returnedPerson));
+        setFilteredPerson(filteredPerson.concat(returnedPerson));
+        setNewName("");
+        setNewNumber("");
+      });
+    }
   };
 
   const deletePersonEntry = (id, name) => {
-    const confirmDelete = window.confirm(`Delete ${name} ?`)
+    const confirmDelete = window.confirm(`Delete ${name}?`);
     if (!confirmDelete) {
       return;
     }
@@ -98,7 +109,10 @@ const App = () => {
         handleNumberChange={handleNumberChange}
       />
       <h3>Numbers</h3>
-      <Persons filteredPerson={filteredPerson} deletePersonEntry={deletePersonEntry} />
+      <Persons
+        filteredPerson={filteredPerson}
+        deletePersonEntry={deletePersonEntry}
+      />
     </div>
   );
 };
