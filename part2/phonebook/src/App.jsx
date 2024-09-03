@@ -35,7 +35,7 @@ const App = () => {
 
     const nameObj = {
       name: newName,
-      id: persons.length + 1,
+      id: (persons.length + 1).toString(),
       number: newNumber,
     };
 
@@ -45,6 +45,24 @@ const App = () => {
       setNewName("");
       setNewNumber("");
     });
+  };
+
+  const deletePersonEntry = (id, name) => {
+    const confirmDelete = window.confirm(`Delete ${name} ?`)
+    if (!confirmDelete) {
+      return;
+    }
+
+    personService
+      .deleteRequest(id)
+      .then(() => {
+        setPersons(persons.filter((person) => person.id !== id));
+        setFilteredPerson(filteredPerson.filter((person) => person.id !== id));
+      })
+      .catch((error) => {
+        console.log("Error deleting person, ", error.message);
+        alert("Error deleting person");
+      });
   };
 
   const handleNameChange = (event) => {
@@ -80,7 +98,7 @@ const App = () => {
         handleNumberChange={handleNumberChange}
       />
       <h3>Numbers</h3>
-      <Persons filteredPerson={filteredPerson} />
+      <Persons filteredPerson={filteredPerson} deletePersonEntry={deletePersonEntry} />
     </div>
   );
 };
