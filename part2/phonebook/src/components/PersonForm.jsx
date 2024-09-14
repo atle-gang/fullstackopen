@@ -1,4 +1,5 @@
 import React from "react";
+import { Notification } from './Notification';
 
 const PersonForm = ({
   appendName,
@@ -6,9 +7,11 @@ const PersonForm = ({
   handleNameChange,
   newNumber,
   handleNumberChange,
+  successMessage
 }) => {
   return (
     <div>
+      {successMessage && <Notification successMessage={successMessage} />}
       <form onSubmit={appendName}>
         <div>
           name: <input value={newName} onChange={handleNameChange} />

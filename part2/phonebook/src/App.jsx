@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import { Names } from "./components/Names";
+import './index.css';
 import { Filter } from "./components/Filter";
 import { PersonForm } from "./components/PersonForm";
 import { Persons } from "./components/Persons";
-import axios from "axios";
 import personService from "./services/persons";
+import { Notification } from "./components/Notification";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -13,6 +13,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [searchPerson, setSearchPerson] = useState("");
   const [filteredPerson, setFilteredPerson] = useState([]);
+  const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
     personService.getAll().then((initialPersons) => {
@@ -25,7 +26,9 @@ const App = () => {
     event.preventDefault();
     console.log(event.target);
 
-    const checkName = persons.find((person) => person.name.toLowerCase() === newName.toLowerCase());
+    const checkName = persons.find(
+      (person) => person.name.toLowerCase() === newName.toLowerCase()
+    );
 
     const nameObj = {
       name: newName,
@@ -49,13 +52,23 @@ const App = () => {
         });
       });
     } else {
-      personService.create(nameObj).then((returnedPerson) => {
-        setPersons(persons.concat(returnedPerson));
-        setFilteredPerson(filteredPerson.concat(returnedPerson));
-        setNewName("");
-        setNewNumber("");
-      });
+      personService
+        .create(nameObj)
+        .then((returnedPerson) => {
+          setPersons(persons.concat(returnedPerson));
+          setFilteredPerson(filteredPerson.concat(returnedPerson));
+          setSuccessMessage(`Added ${returnedPerson.name} to Phone Book`);
+          setTimeout(() => {
+            setSuccessMessage("");
+          }, 3000)
+        })
+        .catch((error) => {
+          console.log("Error updating the number:", error.message);
+          alert("Error updating the number");
+        });
     }
+    setNewName("");
+    setNewNumber("");
   };
 
   const deletePersonEntry = (id, name) => {
@@ -99,6 +112,7 @@ const App = () => {
   return (
     <div>
       <h2>Phone Book</h2>
+      {/* <Notification successMessage={successMessage} /> */}
       <Filter searchPerson={searchPerson} handleSearch={handleSearch} />
       <h3>Add a new</h3>
       <PersonForm
@@ -107,6 +121,7 @@ const App = () => {
         handleNameChange={handleNameChange}
         newNumber={newNumber}
         handleNumberChange={handleNumberChange}
+        successMessage={successMessage}
       />
       <h3>Numbers</h3>
       <Persons
