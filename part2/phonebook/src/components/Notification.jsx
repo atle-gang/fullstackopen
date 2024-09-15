@@ -1,9 +1,13 @@
-import React from 'react'
+import React from "react";
 
-const Notification = ({ successMessage }) => {  
-    return (
-    <div className="success-message">{successMessage}</div>
-  )
-}
+const Notification = ({ message, isError }) => {
+  if (!message) {
+    return null;
+  }
+
+  const className = isError ? "error-message" : "success-message";
+
+  return <div className={className}>{className}</div>;
+};
 
 export { Notification };

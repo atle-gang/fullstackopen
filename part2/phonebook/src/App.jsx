@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import './index.css';
+import "./index.css";
 import { Filter } from "./components/Filter";
 import { PersonForm } from "./components/PersonForm";
 import { Persons } from "./components/Persons";
@@ -14,6 +14,7 @@ const App = () => {
   const [searchPerson, setSearchPerson] = useState("");
   const [filteredPerson, setFilteredPerson] = useState([]);
   const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     personService.getAll().then((initialPersons) => {
@@ -50,6 +51,18 @@ const App = () => {
         setFilteredPerson((previousFilteredPerson) => {
           previousFilteredPerson.id === checkName.id ? updatedPerson : persons;
         });
+        setSuccessMessage(`${updatedPerson.name} has been updated successfully`);
+        setTimeout(() => {
+          setSuccessMessage("");
+        }, 3000);
+      })
+      .catch((error) => {
+        console.log("Error updating the number:", error.message);
+        alert("Error updating the number");
+        setErrorMessage(`${nameExists.name} has already been removed`)
+        setTimeout(() => {
+          setErrorMessage("");
+        }, 3000);
       });
     } else {
       personService
@@ -60,7 +73,7 @@ const App = () => {
           setSuccessMessage(`Added ${returnedPerson.name} to Phone Book`);
           setTimeout(() => {
             setSuccessMessage("");
-          }, 3000)
+          }, 3000);
         })
         .catch((error) => {
           console.log("Error updating the number:", error.message);
@@ -113,6 +126,9 @@ const App = () => {
     <div>
       <h2>Phone Book</h2>
       {/* <Notification successMessage={successMessage} /> */}
+      {/* {successMessage} */}
+      <Notification message={successMessage} isError={false} />
+      <Notification message={errorMessage} isError={false} />
       <Filter searchPerson={searchPerson} handleSearch={handleSearch} />
       <h3>Add a new</h3>
       <PersonForm
@@ -121,7 +137,7 @@ const App = () => {
         handleNameChange={handleNameChange}
         newNumber={newNumber}
         handleNumberChange={handleNumberChange}
-        successMessage={successMessage}
+        // successMessage={successMessage}
       />
       <h3>Numbers</h3>
       <Persons

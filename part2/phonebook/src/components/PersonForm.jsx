@@ -7,11 +7,11 @@ const PersonForm = ({
   handleNameChange,
   newNumber,
   handleNumberChange,
-  successMessage
+  // successMessage
 }) => {
   return (
     <div>
-      {successMessage && <Notification successMessage={successMessage} />}
+      {/* {successMessage && <Notification successMessage={successMessage} />} */}
       <form onSubmit={appendName}>
         <div>
           name: <input value={newName} onChange={handleNameChange} />
