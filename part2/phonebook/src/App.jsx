@@ -1,10 +1,9 @@
 import React from 'react'
 import { useState } from 'react'
+import { Names } from './Names';
 
-const App = () => {
-  const [person, setPersons] = useState([
-    { name: 'Arto Hellas' }
-  ])
+const App = (props) => {
+  const [persons, setPersons] = useState([{ name: "Arto Hellas" }]);
   const [newName, setNewName] = useState('')
 
   return (
@@ -17,6 +16,9 @@ const App = () => {
         <button type="submit">add</button>
       </form>
       <h2>Numbers</h2>
+        {persons.map((person) => {
+           return <Names key={person.id} person={person} />
+        })}
     </div>
   )
 }
