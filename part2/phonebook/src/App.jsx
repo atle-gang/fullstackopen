@@ -9,14 +9,13 @@ const App = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    setPersons([...persons, {name: newName}]);
-    setNewName('');
-
-  }
+    setPersons([...persons, { name: newName }]);
+    setNewName("");
+  };
 
   const handleInputChange = (event) => {
     setNewName(event.target.value);
-  }
+  };
 
   return (
     <div>
