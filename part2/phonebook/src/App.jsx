@@ -1,11 +1,13 @@
 import React from "react";
 import { useState } from "react";
 import { Names } from "./Names";
+import { Filter } from "./Filter";
 
-const App = (props) => {
+const App = () => {
   const [persons, setPersons] = useState([]);
-  const [newName, setNewName] = useState("");
-  const [newNumber, setNewNumber] = useState("");
+  const [newName, setNewName] = useState('');
+  const [newNumber, setNewNumber] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -31,9 +33,20 @@ const App = (props) => {
     setNewNumber(event.target.value);
   };
 
+  const handleSearchQuery = (event) => {
+    setSearchQuery(event.target.value);
+    console.log(event.target.value);
+    return;
+  }
+
+  const filteredPersons = () => {
+
+  }
+
   return (
     <div>
       <h2>Phone book</h2>
+      <Filter searchQuery={searchQuery} handleSearchQuery={handleSearchQuery} />
       <form onSubmit={handleSubmit}>
         <div>
           name: <input value={newName} onChange={handleNameInput} />
