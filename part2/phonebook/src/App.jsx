@@ -15,9 +15,12 @@ const App = (props) => {
       return;
     }
 
-    setPersons([...persons, { name: newName, number: newNumber, id: persons.length + 1 }]);
+    setPersons([
+      ...persons,
+      { name: newName, number: newNumber, id: persons.length + 1 },
+    ]);
     setNewName("");
-    setNewNumber("")
+    setNewNumber("");
   };
 
   const handleNameInput = (event) => {
@@ -25,8 +28,8 @@ const App = (props) => {
   };
 
   const handleNumberInput = (event) => {
-    setNewNumber(event.target.value)
-  }
+    setNewNumber(event.target.value);
+  };
 
   return (
     <div>
