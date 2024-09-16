@@ -9,13 +9,8 @@ const App = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // if (persons.includes(newName)) {
-    //   alert(`${newName} has already been added to the phone book.`)
-    //   return;
-    // }
-
     if (persons.some((person) => person.name === newName)) {
-      alert(`${newName} is already added to the phone book.`)
+      alert(`${newName} is already added to the phone book.`);
       return;
     }
 
