@@ -1,5 +1,5 @@
-import React from 'react'
-import { Person } from './Person';
+import React from "react";
+import { Person } from "./Person";
 
 const Persons = ({ persons, searchQuery }) => {
   const filteredPersons = persons.filter((person) =>
@@ -12,7 +12,7 @@ const Persons = ({ persons, searchQuery }) => {
         return <Person key={person.id} person={person} />;
       })}
     </div>
-  )
-}
+  );
+};
 
 export { Persons };
