@@ -1,7 +1,9 @@
 import React from "react";
 import { useState } from "react";
-import { Names } from "./Names";
+// import { Person } from "./Person";
 import { Filter } from "./Filter";
+import { PersonForm } from "./PersonForm";
+import { Persons } from "./Persons";
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -42,27 +44,18 @@ const App = () => {
     setSearchQuery(event.target.value);
   };
 
-  const filteredPersons = persons.filter((person) =>
-    person.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
 
   return (
     <div>
       <h2>Phone book</h2>
       <Filter searchQuery={searchQuery} handleSearchQuery={handleSearchQuery} />
-      <form onSubmit={handleSubmit}>
-        <div>
-          name: <input value={newName} onChange={handleNameInput} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberInput} />
-        </div>
-        <button type="submit">add</button>
-      </form>
+      <PersonForm newName={newName}
+      newNumber={newNumber}
+      handleNameInput={handleNameInput}
+      handleNumberInput={handleNumberInput}
+      handleSubmit={handleSubmit}/>
       <h2>Numbers</h2>
-      {filteredPersons.map((person) => {
-        return <Names key={person.id} person={person} />;
-      })}
+      <Persons persons={persons} searchQuery={searchQuery} />
     </div>
   );
 };

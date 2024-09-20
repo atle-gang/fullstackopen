@@ -1,6 +1,6 @@
 import React from "react";
 
-const Names = ({ person }) => {
+const Person = ({ person }) => {
   return (
     <div>
       {person.name} - {person.number}
@@ -8,4 +8,4 @@ const Names = ({ person }) => {
   );
 };
 
-export { Names };
+export { Person };
