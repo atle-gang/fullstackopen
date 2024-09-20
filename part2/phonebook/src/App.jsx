@@ -4,10 +4,15 @@ import { Names } from "./Names";
 import { Filter } from "./Filter";
 
 const App = () => {
-  const [persons, setPersons] = useState([]);
-  const [newName, setNewName] = useState('');
-  const [newNumber, setNewNumber] = useState('');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [persons, setPersons] = useState([
+    { name: 'Arto Hellas', number: '040-123456', id: 1 },
+    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
+    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
+    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
+  ])
+  const [newName, setNewName] = useState("");
+  const [newNumber, setNewNumber] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -35,13 +40,11 @@ const App = () => {
 
   const handleSearchQuery = (event) => {
     setSearchQuery(event.target.value);
-    console.log(event.target.value);
-    return;
-  }
+  };
 
-  const filteredPersons = () => {
-
-  }
+  const filteredPersons = persons.filter((person) =>
+    person.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div>
@@ -57,7 +60,7 @@ const App = () => {
         <button type="submit">add</button>
       </form>
       <h2>Numbers</h2>
-      {persons.map((person) => {
+      {filteredPersons.map((person) => {
         return <Names key={person.id} person={person} />;
       })}
     </div>
