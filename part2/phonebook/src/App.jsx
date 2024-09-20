@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Filter } from "./components/Filter";
 import { PersonForm } from "./components/PersonForm";
 import { Persons } from "./components/Persons";
-import axios from'axios';
+import axios from "axios";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -12,11 +12,10 @@ const App = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:3001/persons")
-    .then((response) => {
+    axios.get("http://localhost:3001/persons").then((response) => {
       setPersons(response.data);
-    })
-  })
+    });
+  });
 
   const handleSubmit = (event) => {
     event.preventDefault();
