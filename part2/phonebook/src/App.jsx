@@ -4,6 +4,7 @@ import { Filter } from "./components/Filter";
 import { PersonForm } from "./components/PersonForm";
 import { Persons } from "./components/Persons";
 import axios from "axios";
+import personService from './services/persons';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -12,8 +13,8 @@ const App = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:3001/persons").then((response) => {
-      setPersons(response.data);
+    personService.getAll().then((initialPersonsLoaded) => {
+      setPersons(initialPersonsLoaded);
     });
   }, []);
 
@@ -33,10 +34,10 @@ const App = () => {
       id: (persons.length + 1).toString(),
     };
 
-    axios
-      .post("http://localhost:3001/persons", newPersonObject)
-      .then((response) => {
-        setPersons(persons.concat(newPersonObject));
+    personService
+      .create(newPersonObject)
+      .then((updatedPersons) => {
+        setPersons(persons.concat(updatedPersons));
         setNewName("");
         setNewNumber("");
       });
