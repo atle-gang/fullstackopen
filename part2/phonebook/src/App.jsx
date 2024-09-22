@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Filter } from "./components/Filter";
 import { PersonForm } from "./components/PersonForm";
 import { Persons } from "./components/Persons";
-import personService from './services/persons';
+import personService from './services/personsService';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -12,9 +12,15 @@ const App = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    personService.getAll().then((initialPersonsLoaded) => {
-      setPersons(initialPersonsLoaded);
-    });
+    const fetchPersons = async () => {
+      try {
+        const initialPersons = await personService.getAll()
+        setPersons(initialPersons);
+      } catch (error) {
+        console.error("Failed to load persons", error);
+      }
+    }
+    fetchPersons();
   }, []);
 
   const resetInputFields = () => {
