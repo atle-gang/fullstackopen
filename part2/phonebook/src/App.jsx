@@ -55,11 +55,29 @@ const App = () => {
       });
   };
 
+  const deletePersonEntry = (id, name) => {
+    const confirmPersonDeletion = window.confirm(
+      `Delete ${name} from phone book?`
+    );
+
+    if (!confirmPersonDeletion) {
+      return;
+    }
+
+    personService
+      .deleteEntry(id)
+      .then(() => {
+        setPersons(persons.filter((person) => person.id !== id));
+      })
+      .catch((error) => {
+        console.error(`Failed to delete ${name}`, error.message);
+        alert(`Error deleting ${name}.`);
+      });
+  };
+
   const handleNameInput = (event) => {
     setNewName(event.target.value);
   };
-
-
 
   const handleNumberInput = (event) => {
     setNewNumber(event.target.value);
