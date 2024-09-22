@@ -9,7 +9,13 @@ const Persons = ({ persons, searchQuery, deletePersonEntry }) => {
   return (
     <div>
       {filteredPersons.map((person) => {
-        return <Person key={person.id} person={person} deletePersonEntry={deletePersonEntry} />;
+        return (
+          <Person
+            key={person.id}
+            person={person}
+            deletePersonEntry={deletePersonEntry}
+          />
+        );
       })}
     </div>
   );

@@ -99,7 +99,11 @@ const App = () => {
         addNewPerson={addNewPerson}
       />
       <h2>Numbers</h2>
-      <Persons persons={persons} searchQuery={searchQuery} />
+      <Persons
+        persons={persons}
+        searchQuery={searchQuery}
+        deletePersonEntry={deletePersonEntry}
+      />
     </div>
   );
 };
