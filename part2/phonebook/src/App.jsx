@@ -49,6 +49,7 @@ const App = () => {
         return;
       }
       updatePersonEntry(checkIfNameExists.id, newPersonObject);
+      resetInputFields();
     } else {
       try {
         const updatedPersons = await personService.create(newPersonObject);
@@ -61,7 +62,7 @@ const App = () => {
     }
   };
 
-  const deletePersonEntry = (id, name) => {
+  const deletePersonEntry = async (id, name) => {
     const confirmPersonDeletion = window.confirm(
       `Delete ${name} from phone book?`
     );
@@ -70,25 +71,34 @@ const App = () => {
       return;
     }
 
-    personService
-      .deleteEntry(id)
-      .then(() => {
-        setPersons(persons.filter((person) => person.id !== id));
-      })
-      .catch((error) => {
-        console.error(`Failed to delete ${name}`, error.message);
-        alert(`Error deleting ${name}.`);
-      });
+    try {
+      await personService.deleteEntry(id);
+      setPersons((previousPersons) =>
+        previousPersons.filter((person) => person.id !== id)
+      );
+    } catch (error) {
+      console.error(`Failed to delete ${name}`, error.message);
+      alert(`Error deleting ${name}.`);
+    }
   };
 
-  const updatePersonEntry = (id, updatedPersonObject) => {
-    personService.updateEntry(id, updatedPersonObject).then((updatedPerson) => {
+  const updatePersonEntry = async (id, updatedPersonObject) => {
+    try {
+      const updatedPerson = await personService.updateEntry(
+        id,
+        updatedPersonObject
+      );
       setPersons((previousPersons) =>
         previousPersons.map((person) =>
           person.id === id ? updatedPerson : person
         )
       );
-    });
+    } catch (error) {
+      console.error("Error updating person:", error);
+      alert(
+        `Failed to update phone number belonging to ${updatedPersonObject.name}`
+      );
+    }
   };
 
   const handleNameInput = (event) => {
