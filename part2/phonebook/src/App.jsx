@@ -103,8 +103,6 @@ const App = () => {
     setSearchQuery(event.target.value);
   };
 
-  
-
   return (
     <div>
       <h2>Phone book</h2>
