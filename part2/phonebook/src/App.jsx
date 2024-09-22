@@ -28,7 +28,7 @@ const App = () => {
     setNewNumber("");
   };
 
-  const addNewPerson = (event) => {
+  const addNewPerson = async (event) => {
     event.preventDefault();
 
     if (persons.some((person) => person.name === newName)) {
@@ -43,16 +43,14 @@ const App = () => {
       id: (persons.length + 1).toString(),
     };
 
-    personService
-      .create(newPersonObject)
-      .then((updatedPersons) => {
-        setPersons(persons.concat(updatedPersons));
-        resetInputFields();
-      })
-      .catch((error) => {
-        console.error("Error adding person", error);
-        alert("Failed to add person.");
-      });
+    try {
+      const updatedPersons = await personService.create(newPersonObject);
+      setPersons(persons.concat(updatedPersons));
+      resetInputFields();
+    } catch (error) {
+      console.error("Error adding person", error);
+      alert("Failed to add person.");
+    }
   };
 
   const deletePersonEntry = (id, name) => {
