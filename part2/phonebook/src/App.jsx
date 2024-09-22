@@ -73,6 +73,13 @@ const App = () => {
       });
   };
 
+  const updatePersonEntry = (id, name) => {
+    const confirmUpdatePerson = window.confirm(`${name} is already added to the phone book. 
+      Would you like to replace the number with a new one?`)
+
+    
+  }
+
   const handleNameInput = (event) => {
     setNewName(event.target.value);
   };
