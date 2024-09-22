@@ -31,11 +31,9 @@ const App = () => {
   const addNewPerson = async (event) => {
     event.preventDefault();
 
-    if (persons.some((person) => person.name === newName)) {
-      alert(`${newName} is already added to the phone book.`);
-      resetInputFields();
-      return;
-    }
+    const checkIfNameExists = persons.find(
+      (person) => person.name.toLowerCase() === newName.toLowerCase()
+    );
 
     const newPersonObject = {
       name: newName,
@@ -43,13 +41,23 @@ const App = () => {
       id: (persons.length + 1).toString(),
     };
 
-    try {
-      const updatedPersons = await personService.create(newPersonObject);
-      setPersons(persons.concat(updatedPersons));
-      resetInputFields();
-    } catch (error) {
-      console.error("Error adding person", error);
-      alert("Failed to add person.");
+    if (checkIfNameExists) {
+      const confirmUpdatePerson = window.confirm(
+        `${checkIfNameExists.name} is already added to the phone book. Would you like to replace the number with a new one?`
+      );
+      if (!confirmUpdatePerson) {
+        return;
+      }
+      updatePersonEntry(checkIfNameExists.id, newPersonObject);
+    } else {
+      try {
+        const updatedPersons = await personService.create(newPersonObject);
+        setPersons(persons.concat(updatedPersons));
+        resetInputFields();
+      } catch (error) {
+        console.error("Error adding person", error);
+        alert("Failed to add person.");
+      }
     }
   };
 
@@ -73,12 +81,15 @@ const App = () => {
       });
   };
 
-  const updatePersonEntry = (id, name) => {
-    const confirmUpdatePerson = window.confirm(`${name} is already added to the phone book. 
-      Would you like to replace the number with a new one?`)
-
-    
-  }
+  const updatePersonEntry = (id, updatedPersonObject) => {
+    personService.updateEntry(id, updatedPersonObject).then((updatedPerson) => {
+      setPersons((previousPersons) =>
+        previousPersons.map((person) =>
+          person.id === id ? updatedPerson : person
+        )
+      );
+    });
+  };
 
   const handleNameInput = (event) => {
     setNewName(event.target.value);
@@ -91,6 +102,8 @@ const App = () => {
   const handleSearchQuery = (event) => {
     setSearchQuery(event.target.value);
   };
+
+  
 
   return (
     <div>
