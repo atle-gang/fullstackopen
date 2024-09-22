@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Filter } from "./components/Filter";
 import { PersonForm } from "./components/PersonForm";
 import { Persons } from "./components/Persons";
-import personService from './services/personsService';
+import personService from './services/persons';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -17,13 +17,17 @@ const App = () => {
     });
   }, []);
 
+  const resetInputFields = () => {
+    setNewName("");
+    setNewNumber("");
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
     if (persons.some((person) => person.name === newName)) {
       alert(`${newName} is already added to the phone book.`);
-      setNewName("");
-      setNewNumber("");
+      resetInputFields()
       return;
     }
 
@@ -37,8 +41,7 @@ const App = () => {
       .create(newPersonObject)
       .then((updatedPersons) => {
         setPersons(persons.concat(updatedPersons));
-        setNewName("");
-        setNewNumber("");
+        resetInputFields()
       });
   };
 
