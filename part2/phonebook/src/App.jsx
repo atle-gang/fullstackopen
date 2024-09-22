@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Filter } from "./components/Filter";
 import { PersonForm } from "./components/PersonForm";
 import { Persons } from "./components/Persons";
-import personService from './services/personsService';
+import personService from "./services/personsService";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -14,26 +14,26 @@ const App = () => {
   useEffect(() => {
     const fetchPersons = async () => {
       try {
-        const initialPersons = await personService.getAll()
+        const initialPersons = await personService.getAll();
         setPersons(initialPersons);
       } catch (error) {
         console.error("Failed to load persons", error);
       }
-    }
+    };
     fetchPersons();
   }, []);
 
   const resetInputFields = () => {
     setNewName("");
     setNewNumber("");
-  }
+  };
 
-  const handleSubmit = (event) => {
+  const addNewPerson = (event) => {
     event.preventDefault();
 
     if (persons.some((person) => person.name === newName)) {
       alert(`${newName} is already added to the phone book.`);
-      resetInputFields()
+      resetInputFields();
       return;
     }
 
@@ -47,17 +47,19 @@ const App = () => {
       .create(newPersonObject)
       .then((updatedPersons) => {
         setPersons(persons.concat(updatedPersons));
-        resetInputFields()
+        resetInputFields();
       })
       .catch((error) => {
         console.error("Error adding person", error);
-        alert("Failed to add person.")
-      })
+        alert("Failed to add person.");
+      });
   };
 
   const handleNameInput = (event) => {
     setNewName(event.target.value);
   };
+
+
 
   const handleNumberInput = (event) => {
     setNewNumber(event.target.value);
@@ -76,7 +78,7 @@ const App = () => {
         newNumber={newNumber}
         handleNameInput={handleNameInput}
         handleNumberInput={handleNumberInput}
-        handleSubmit={handleSubmit}
+        addNewPerson={addNewPerson}
       />
       <h2>Numbers</h2>
       <Persons persons={persons} searchQuery={searchQuery} />

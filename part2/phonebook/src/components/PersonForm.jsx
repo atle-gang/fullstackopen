@@ -5,10 +5,10 @@ const PersonForm = ({
   newNumber,
   handleNameInput,
   handleNumberInput,
-  handleSubmit,
+  addNewPerson,
 }) => {
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={addNewPerson}>
       <div>
         name: <input value={newName} onChange={handleNameInput} />
       </div>
