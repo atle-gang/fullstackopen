@@ -42,7 +42,11 @@ const App = () => {
       .then((updatedPersons) => {
         setPersons(persons.concat(updatedPersons));
         resetInputFields()
-      });
+      })
+      .catch((error) => {
+        console.error("Error adding person", error);
+        alert("Failed to add person.")
+      })
   };
 
   const handleNameInput = (event) => {
