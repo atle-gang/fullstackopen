@@ -11,7 +11,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
     const fetchPersons = async () => {
@@ -52,21 +52,15 @@ const App = () => {
       }
       updatePersonEntry(checkIfNameExists.id, newPersonObject);
       resetInputFields();
-      setSuccessMessage(
-        `Updated number belonging to ${checkIfNameExists.name}.`
-      );
-      setTimeout(() => {
-        setSuccessMessage(null);
-      }, 3000);
     } else {
       try {
         const updatedPersons = await personService.create(newPersonObject);
         setPersons(persons.concat(updatedPersons));
         resetInputFields();
-        setSuccessMessage(`Added ${newName} to the phone book.`);
+        setSuccessMessage(`Added ${newName} to the phone book.`)
         setTimeout(() => {
-          setSuccessMessage(null);
-        }, 3000);
+          setSuccessMessage(null)
+        }, 3000)
       } catch (error) {
         console.error("Error adding person", error);
         alert("Failed to add person.");
@@ -105,6 +99,10 @@ const App = () => {
           person.id === id ? updatedPerson : person
         )
       );
+      setSuccessMessage(`Updated phone number belonging to ${newName}.`)
+        setTimeout(() => {
+          setSuccessMessage(null)
+        }, 3000)
     } catch (error) {
       console.error("Error updating person:", error);
       alert(
