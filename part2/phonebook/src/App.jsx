@@ -4,12 +4,14 @@ import { Filter } from "./components/Filter";
 import { PersonForm } from "./components/PersonForm";
 import { Persons } from "./components/Persons";
 import personService from "./services/personsService";
+import { Notification } from "./components/Notification";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+  const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
     const fetchPersons = async () => {
@@ -50,11 +52,19 @@ const App = () => {
       }
       updatePersonEntry(checkIfNameExists.id, newPersonObject);
       resetInputFields();
+      setSuccessMessage(`Updated number belonging to ${checkIfNameExists.name}.`)
+        setTimeout(() => {
+          setSuccessMessage(null)
+        }, 3000)
     } else {
       try {
         const updatedPersons = await personService.create(newPersonObject);
         setPersons(persons.concat(updatedPersons));
         resetInputFields();
+        setSuccessMessage(`Added ${newName} to the phone book.`)
+        setTimeout(() => {
+          setSuccessMessage(null)
+        }, 3000)
       } catch (error) {
         console.error("Error adding person", error);
         alert("Failed to add person.");
@@ -116,6 +126,7 @@ const App = () => {
   return (
     <div>
       <h2>Phone book</h2>
+      <Notification message={successMessage} />
       <Filter searchQuery={searchQuery} handleSearchQuery={handleSearchQuery} />
       <PersonForm
         newName={newName}
