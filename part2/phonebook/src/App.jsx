@@ -11,7 +11,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-  const [successMessage, setSuccessMessage] = useState('');
+  const [notification, setNotification] = useState('');
 
   useEffect(() => {
     const fetchPersons = async () => {
@@ -57,9 +57,9 @@ const App = () => {
         const updatedPersons = await personService.create(newPersonObject);
         setPersons(persons.concat(updatedPersons));
         resetInputFields();
-        setSuccessMessage(`Added ${newName} to the phone book.`)
+        setNotification(`Added ${newName} to the phone book.`)
         setTimeout(() => {
-          setSuccessMessage(null)
+          setNotification(null)
         }, 3000)
       } catch (error) {
         console.error("Error adding person", error);
@@ -99,9 +99,9 @@ const App = () => {
           person.id === id ? updatedPerson : person
         )
       );
-      setSuccessMessage(`Updated phone number belonging to ${newName}.`)
+      setNotification(`Updated phone number belonging to ${newName}.`)
         setTimeout(() => {
-          setSuccessMessage(null)
+          setNotification(null)
         }, 3000)
     } catch (error) {
       console.error("Error updating person:", error);
@@ -126,7 +126,7 @@ const App = () => {
   return (
     <div>
       <h2>Phone book</h2>
-      <Notification message={successMessage} />
+      <Notification message={notification} />
       <Filter searchQuery={searchQuery} handleSearchQuery={handleSearchQuery} />
       <PersonForm
         newName={newName}
