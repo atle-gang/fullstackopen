@@ -123,7 +123,7 @@ const App = () => {
       );
       setNotification({
         type: "errorNotification",
-        message: `${updatedPersonObject.name} has already been removed from the server.`,
+        message: `Information of ${updatedPersonObject.name} has already been removed from the server.`,
       });
     }
   };
