@@ -11,7 +11,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-  const [notification, setNotification] = useState('');
+  const [notification, setNotification] = useState(null);
 
   useEffect(() => {
     const fetchPersons = async () => {
@@ -57,10 +57,13 @@ const App = () => {
         const updatedPersons = await personService.create(newPersonObject);
         setPersons(persons.concat(updatedPersons));
         resetInputFields();
-        setNotification(`Added ${newName} to the phone book.`)
+        setNotification({
+          type: "addNotification",
+          message: `Added ${newName} to the phone book.`,
+        });
         setTimeout(() => {
-          setNotification(null)
-        }, 3000)
+          setNotification(null);
+        }, 3000);
       } catch (error) {
         console.error("Error adding person", error);
         alert("Failed to add person.");
@@ -82,6 +85,13 @@ const App = () => {
       setPersons((previousPersons) =>
         previousPersons.filter((person) => person.id !== id)
       );
+      setNotification({
+        type: "deleteNotification",
+        message: `Deleted ${name} from phone book.`,
+      });
+      setTimeout(() => {
+        setNotification(null);
+      }, 3000);
     } catch (error) {
       console.error(`Failed to delete ${name}`, error.message);
       alert(`Error deleting ${name}.`);
@@ -99,15 +109,22 @@ const App = () => {
           person.id === id ? updatedPerson : person
         )
       );
-      setNotification(`Updated phone number belonging to ${newName}.`)
-        setTimeout(() => {
-          setNotification(null)
-        }, 3000)
+      setNotification({
+        type: "updateNotification",
+        message: `Updated phone number belonging to ${newName}.`,
+      });
+      setTimeout(() => {
+        setNotification(null);
+      }, 3000);
     } catch (error) {
       console.error("Error updating person:", error);
       alert(
         `Failed to update phone number belonging to ${updatedPersonObject.name}`
       );
+      setNotification({
+        type: "errorNotification",
+        message: `${updatedPersonObject.name} has already been removed from the server.`,
+      });
     }
   };
 
@@ -126,7 +143,7 @@ const App = () => {
   return (
     <div>
       <h2>Phone book</h2>
-      <Notification message={notification} />
+      <Notification notification={notification} />
       <Filter searchQuery={searchQuery} handleSearchQuery={handleSearchQuery} />
       <PersonForm
         newName={newName}
