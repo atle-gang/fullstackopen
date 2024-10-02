@@ -2,6 +2,8 @@ import React from "react";
 import { Country } from "./Country";
 
 const CountriesList = ({ countries, searchQuery }) => {
+  if (searchQuery === "") return;
+  
   const filteredCountries = countries.filter((country) =>
     country.name.common.toLowerCase().includes(searchQuery.toLowerCase())
   );
