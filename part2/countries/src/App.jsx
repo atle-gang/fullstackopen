@@ -1,9 +1,24 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SearchBar } from "./components/SearchBar";
+import countriesService from "./services/countriesService";
+import { CountriesList } from "./components/CountriesList";
 
 const App = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [countries, setCountries] = useState([]);
+
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const displayCountries = await countriesService.getAllCountries();
+        setCountries(displayCountries);
+      } catch (error) {
+        console.error("Failed to get and load countries", error.message);
+      }
+    };
+    fetchCountries();
+  }, []);
 
   const handleSearchQuery = (event) => {
     const query = event.target.value.trim();
@@ -21,6 +36,7 @@ const App = () => {
         searchQuery={searchQuery}
         handleSearchQuery={handleSearchQuery}
       />
+      <CountriesList countries={countries} searchQuery={searchQuery} />
     </div>
   );
 };
