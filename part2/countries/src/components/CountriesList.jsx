@@ -3,18 +3,25 @@ import { Country } from "./Country";
 
 const CountriesList = ({ countries, searchQuery }) => {
   if (searchQuery === "") return;
-  
+
   const filteredCountries = countries.filter((country) =>
     country.name.common.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  console.log(filteredCountries);
+
   return (
     <div>
-      {filteredCountries.map((country) => {
-        return <Country key={country.cca3} country={country} />;
-      })}
+      {filteredCountries.length > 10 ? (
+        <p>Too many matches, specify another filter</p>
+      ) : (
+        filteredCountries.map((country) => (
+          <Country key={country.cca3} country={country} />
+        ))
+      )}
     </div>
   );
 };
 
 export { CountriesList };
+
