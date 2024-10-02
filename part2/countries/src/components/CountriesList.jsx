@@ -8,8 +8,6 @@ const CountriesList = ({ countries, searchQuery }) => {
     country.name.common.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  console.log(filteredCountries);
-
   let displayedInfo;
   if (filteredCountries.length > 10) {
     displayedInfo = <div>Too many matches, specify another filter.</div>;
