@@ -10,20 +10,23 @@ const CountriesList = ({ countries, searchQuery }) => {
 
   console.log(filteredCountries);
 
-  return (
-    <div>
-      {filteredCountries.length > 10 ? (
-        <p>Too many matches, specify another filter</p>
-      ) : filteredCountries.length === 1 ? (
-        <Country country={filteredCountries[0]} />
-      ) : (
-        filteredCountries.map((country) => (
-          <Country key={country.cca3} country={country} />
-        ))
-      )}
-    </div>
-  );
+  let displayedInfo;
+  if (filteredCountries.length > 10) {
+    displayedInfo = <div>Too many matches, specify another filter.</div>;
+  } else if (filteredCountries > 1) {
+    displayedInfo = (
+      <div>
+        {filteredCountries.map((country) => {
+          <Country key={country.cca3} country={country} />;
+        })}
+      </div>
+    );
+  } else if (filteredCountries.length < 1) {
+    displayedInfo = <div>No matches found.</div>;
+  } else {
+    displayedInfo = <Country country={filteredCountries[0]} />;
+  }
+  return displayedInfo;
 };
 
 export { CountriesList };
-
