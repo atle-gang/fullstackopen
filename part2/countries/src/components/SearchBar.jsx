@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const SearchBar = ({ searchQuery, handleSearchQuery }) => {
   return (
@@ -6,7 +6,7 @@ const SearchBar = ({ searchQuery, handleSearchQuery }) => {
       find countries:{" "}
       <input value={searchQuery} type="text" onChange={handleSearchQuery} />
     </div>
-  )
-}
+  );
+};
 
 export { SearchBar };
