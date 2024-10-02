@@ -14,6 +14,8 @@ const CountriesList = ({ countries, searchQuery }) => {
     <div>
       {filteredCountries.length > 10 ? (
         <p>Too many matches, specify another filter</p>
+      ) : filteredCountries.length === 1 ? (
+        <Country country={filteredCountries[0]} />
       ) : (
         filteredCountries.map((country) => (
           <Country key={country.cca3} country={country} />
