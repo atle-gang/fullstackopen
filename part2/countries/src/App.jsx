@@ -21,7 +21,7 @@ const App = () => {
   }, []);
 
   const handleSearchQuery = (event) => {
-    const query = event.target.value.trim();
+    const query = event.target.value;
 
     // Optimising state updates by checking if the new search query is different from the current state.
     // This prevents unnecessary re-renders and improves performance, especially when the input hasn't changed meaningfully.
