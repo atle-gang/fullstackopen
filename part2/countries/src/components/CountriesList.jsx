@@ -1,5 +1,6 @@
 import React from "react";
 import { Country } from "./Country";
+import { ShowCountryData } from "./ShowCountryData";
 
 const CountriesList = ({ countries, searchQuery }) => {
   if (searchQuery === "") return;
@@ -8,23 +9,23 @@ const CountriesList = ({ countries, searchQuery }) => {
     country.name.common.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  let displayedInfo;
-  if (filteredCountries.length > 10) {
-    displayedInfo = <div>Too many matches, specify another filter.</div>;
-  } else if (filteredCountries > 1) {
-    displayedInfo = (
-      <div>
-        {filteredCountries.map((country) => {
-          <Country key={country.cca3} country={country} />;
-        })}
-      </div>
-    );
-  } else if (filteredCountries.length < 1) {
-    displayedInfo = <div>No matches found.</div>;
-  } else {
-    displayedInfo = <Country country={filteredCountries[0]} />;
+  if (filteredCountries.length === 1) {
+    return <Country country={country} />
   }
-  return displayedInfo;
+
+  if (filteredCountries.length > 10) {
+    return  <p>Too many matches, specify another filter</p>
+  }
+
+  return (
+    filteredCountries.map((country) => {
+      return (
+        <div>
+          <li key={country.cca3} style={{listStyleType: "none"}}>{country.name.common} <ShowCountryData country={country} /></li>
+        </div>
+      )
+    })
+  )
 };
 
 export { CountriesList };
