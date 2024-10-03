@@ -10,22 +10,23 @@ const CountriesList = ({ countries, searchQuery }) => {
   );
 
   if (filteredCountries.length === 1) {
-    return <Country country={country} />
+    const country = filteredCountries[0];
+    return <Country country={country} />;
   }
 
   if (filteredCountries.length > 10) {
-    return  <p>Too many matches, specify another filter</p>
+    return <p>Too many matches, specify another filter</p>;
   }
 
-  return (
-    filteredCountries.map((country) => {
-      return (
-        <div>
-          <li key={country.cca3} style={{listStyleType: "none"}}>{country.name.common} <ShowCountryData country={country} /></li>
-        </div>
-      )
-    })
-  )
+  return filteredCountries.map((country) => {
+    return (
+      <div>
+        <li key={country.cca3} style={{ listStyleType: "none" }}>
+          {country.name.common} <ShowCountryData country={country} />
+        </li>
+      </div>
+    );
+  });
 };
 
 export { CountriesList };
