@@ -18,13 +18,17 @@ const CountriesList = ({ countries, searchQuery }) => {
     return <p>Too many matches, specify another filter</p>;
   }
 
+  if (filteredCountries.length < 1) {
+    return <p>No countries matching your search</p>;
+  }
+
   return filteredCountries.map((country) => {
     return (
-      <div>
+      <ul>
         <li key={country.cca3} style={{ listStyleType: "none" }}>
           {country.name.common} <ShowCountryData country={country} />
         </li>
-      </div>
+      </ul>
     );
   });
 };
