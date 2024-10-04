@@ -3,7 +3,7 @@ import { Country } from "./Country";
 import { ShowCountryData } from "./ShowCountryData";
 
 const CountriesList = ({ countries, searchQuery }) => {
-  if (searchQuery === "") return;
+  if (searchQuery === "") return null;
 
   const filteredCountries = countries.filter((country) =>
     country.name.common.toLowerCase().includes(searchQuery.toLowerCase())
@@ -22,15 +22,15 @@ const CountriesList = ({ countries, searchQuery }) => {
     return <p>No countries matching your search</p>;
   }
 
-  return filteredCountries.map((country) => {
-    return (
-      <ul>
+  return (
+    <ul>
+      {filteredCountries.map((country) => (
         <li key={country.cca3} style={{ listStyleType: "none" }}>
           {country.name.common} <ShowCountryData country={country} />
         </li>
-      </ul>
-    );
-  });
+      ))}
+    </ul>
+  );
 };
 
 export { CountriesList };
