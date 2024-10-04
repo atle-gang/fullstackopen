@@ -6,17 +6,27 @@ const Country = ({ country }) => {
   const { name, capital, area, languages, flags } = country;
 
   useEffect(() => {
-    const capitalCity = Array.isArray(country.capital) ? country.capital[0] : country.capital;
+    const capitalCity = Array.isArray(country.capital)
+      ? country.capital[0]
+      : country.capital;
 
     const fetchWeatherData = async () => {
       const weatherData = await weatherService.fetchWeather(capitalCity);
-      setWeather(weatherData);
+      const temperature = weatherData.main.temp;
+      const wind = weatherData.wind.speed;
+      const weatherIcon = weatherData.weather[0].icon;
+      const weatherConditionsObject = {
+        temp: temperature,
+        icon: weatherIcon,
+        windSpeed: wind,
+      };
+      setWeather(weatherConditionsObject);
+      // setWeather(weatherData);
     };
     fetchWeatherData();
   }, [country.capital]);
 
   console.log("Weather", weather);
-  
 
   return (
     <div>
@@ -41,6 +51,14 @@ const Country = ({ country }) => {
         alt={`Flag of ${name.common}`}
         style={{ width: "100px" }}
       />
+      <h3>Weather in {country.name.common}</h3>
+      <p>Temperature: {weather.temp} <span>&deg;C</span></p>
+      <img
+        src={`https://openweathermap.org/img/w/${weather.icon}.png`}
+        alt=""
+      />
+      <p>Wind Speed: {weather.windSpeed} km/h</p>
+    
     </div>
   );
 };
