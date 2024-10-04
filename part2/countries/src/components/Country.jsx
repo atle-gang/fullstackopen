@@ -52,13 +52,14 @@ const Country = ({ country }) => {
         style={{ width: "100px" }}
       />
       <h3>Weather in {country.name.common}</h3>
-      <p>Temperature: {weather.temp} <span>&deg;C</span></p>
+      <p>
+        Temperature: {weather.temp} <span>&deg;C</span>
+      </p>
       <img
         src={`https://openweathermap.org/img/w/${weather.icon}.png`}
         alt=""
       />
       <p>Wind Speed: {weather.windSpeed} km/h</p>
-    
     </div>
   );
 };
