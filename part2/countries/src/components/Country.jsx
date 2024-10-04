@@ -15,13 +15,14 @@ const Country = ({ country }) => {
       const temperature = weatherData.main.temp;
       const wind = weatherData.wind.speed;
       const weatherIcon = weatherData.weather[0].icon;
+      const weatherDescription = weatherData.weather[0].description;
       const weatherConditionsObject = {
         temp: temperature,
         icon: weatherIcon,
+        description: weatherDescription,
         windSpeed: wind,
       };
       setWeather(weatherConditionsObject);
-      // setWeather(weatherData);
     };
     fetchWeatherData();
   }, [country.capital]);
@@ -57,8 +58,9 @@ const Country = ({ country }) => {
       </p>
       <img
         src={`https://openweathermap.org/img/w/${weather.icon}.png`}
-        alt=""
+        alt={`Weather description: ${weather.description}`}
       />
+      <p>{weather.description}</p>
       <p>Wind Speed: {weather.windSpeed} km/h</p>
     </div>
   );
