@@ -65,8 +65,8 @@ const App = () => {
           setNotification(null);
         }, 3000);
       } catch (error) {
-        console.error("Error adding person", error);
         alert("Failed to add person.");
+        console.log("Error", error.response.data.error);
       }
     }
   };
