@@ -65,9 +65,16 @@ const App = () => {
           setNotification(null);
         }, 3000);
       } catch (error) {
-        alert("Failed to add person.");
         console.log("Error", error.response.data.error);
+        setNotification({
+          type: "errorNotification",
+          message: `${error.response.data.error}.`,
+        });
+        setTimeout(() => {
+          setNotification(null);
+        }, 3000);
       }
+      resetInputFields()
     }
   };
 
