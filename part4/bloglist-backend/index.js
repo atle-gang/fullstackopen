@@ -2,18 +2,10 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const mongoose = require('mongoose');
+const Blog = require('./models/blog');
 
 require("dotenv").config();
 mongoose.set('strictQuery', false);
-
-const blogSchema = new mongoose.Schema({
-    title: String,
-    author: String,
-    url: String,
-    likes: Number
-});
-
-const Blog = mongoose.model('Blog', blogSchema);
 
 const mongoUrl = `mongodb+srv://${process.env.USER_NAME}:${process.env.PASSWORD}@cluster0.blicn.mongodb.net/phoneBookApp?retryWrites=true&w=majority&appName=Cluster0`;
 
