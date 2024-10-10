@@ -5,22 +5,24 @@ blogsRouter.get('/info', (request, response) => {
   response.send('<h1>Blog List App</h1>');
 });
 
-blogsRouter.get('/', (request, response) => {
+blogsRouter.get('/', (request, response, next) => {
   Blog
     .find({})
     .then(blogs => {
       response.json(blogs);
-    });
+    })
+    .catch((error) => next(error));
 });
 
-blogsRouter.post('/', (request, response) => {
+blogsRouter.post('/', (request, response, next) => {
   const blog = new Blog(request.body);
 
   blog
     .save()
     .then(result => {
       response.status(201).json(result);
-    });
+    })
+    .catch((error) => next(error));
 });
 
 module.exports = blogsRouter;
