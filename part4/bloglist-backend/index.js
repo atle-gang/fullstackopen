@@ -1,22 +1,36 @@
-const express = require('express')
-const app = express()
-const cors = require('cors')
-const mongoose = require('mongoose')
+const express = require('express');
+const app = express();
+const cors = require('cors');
+const mongoose = require('mongoose');
+
+require("dotenv").config();
+mongoose.set('strictQuery', false);
 
 const blogSchema = new mongoose.Schema({
-  title: String,
-  author: String,
-  url: String,
-  likes: Number
-})
+    title: String,
+    author: String,
+    url: String,
+    likes: Number
+});
 
-const Blog = mongoose.model('Blog', blogSchema)
+const Blog = mongoose.model('Blog', blogSchema);
 
-const mongoUrl = 'mongodb://localhost/bloglist'
+const mongoUrl = `mongodb+srv://${process.env.USER_NAME}:${process.env.PASSWORD}@cluster0.blicn.mongodb.net/phoneBookApp?retryWrites=true&w=majority&appName=Cluster0`;
+
 mongoose.connect(mongoUrl)
+ .then(result => {
+    console.log("Connected to MongoDB")
+ })
+ .catch((error) => {
+    "Error connecting to MongoDB", error.message
+});
 
-app.use(cors())
-app.use(express.json())
+app.use(cors());
+app.use(express.json());
+
+app.get('/info', (request, response) => {
+    response.send('<h1>Blog List App</h1>');
+});
 
 app.get('/api/blogs', (request, response) => {
   Blog
@@ -27,16 +41,16 @@ app.get('/api/blogs', (request, response) => {
 })
 
 app.post('/api/blogs', (request, response) => {
-  const blog = new Blog(request.body)
+    const blog = new Blog(request.body);
 
-  blog
-    .save()
-    .then(result => {
-      response.status(201).json(result)
-    })
-})
+    blog
+        .save()
+        .then(result => {
+            response.status(201).json(result);
+        });
+});
 
-const PORT = 3003
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
-})
+    console.log(`Server running on port ${PORT}`);
+});
