@@ -3,11 +3,11 @@ const app = express();
 const cors = require('cors');
 const mongoose = require('mongoose');
 const Blog = require('./models/blog');
+const config = require('./utils/config');
 
-require("dotenv").config();
 mongoose.set('strictQuery', false);
 
-const mongoUrl = `mongodb+srv://${process.env.USER_NAME}:${process.env.PASSWORD}@cluster0.blicn.mongodb.net/phoneBookApp?retryWrites=true&w=majority&appName=Cluster0`;
+const mongoUrl = config.MONGODB_URI;
 
 mongoose.connect(mongoUrl)
  .then(result => {
@@ -42,7 +42,7 @@ app.post('/api/blogs', (request, response) => {
         });
 });
 
-const PORT = process.env.PORT;
+const PORT = config.PORT;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
