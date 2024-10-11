@@ -96,6 +96,24 @@ describe("addition of a new blog", () => {
   });
 });
 
+describe("a test can be deleted", () => {
+  test("deleting a blog", async () => {
+    const blogsAtStart = await testHelper.blogsInDB();
+    const blogToDelete = blogsAtStart[0];
+
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(204);
+
+    const blogsAtEnd = await testHelper.blogsInDB();
+
+    const ids = blogsAtEnd.map(blog => blog.id);
+    assert(!ids.includes(blogToDelete.id));
+
+    assert.strictEqual(blogsAtEnd.length, testHelper.initialBlogList.length - 1);
+  });
+});
+
 after(async () => {
   await mongoose.connection.close();
 });
