@@ -44,21 +44,21 @@ test.only("verify that making an HTTP POST request successfully creates a new bl
     author: "Test Author",
     url: "test/url",
     likes: 0
-  }
+  };
 
   await api
-  .post("/api/blogs")
-  .send(testBlog)
-  .expect(201)
-  .expect("Content-Type", /application\/json/);
+    .post("/api/blogs")
+    .send(testBlog)
+    .expect(201)
+    .expect("Content-Type", /application\/json/);
 
   blogsAtEnd = await testHelper.blogsInDB();
   assert.strictEqual(blogsAtEnd.length, testHelper.initialBlogList.length + 1);
-  
+
   const response = await api.get("/api/blogs");
   const titles = response.body.map(blog => blog.title);
   assert(titles.includes("Test Blog"));
-})
+});
 
 after(async () => {
   await mongoose.connection.close();
