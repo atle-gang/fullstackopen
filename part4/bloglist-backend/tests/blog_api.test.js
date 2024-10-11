@@ -38,6 +38,28 @@ test.only("verifies that the unique identifier properly of the blog posts is nam
   });
 });
 
+test.only("verify that making an HTTP POST request successfully creates a new blog post", async () => {
+  const testBlog = {
+    title: "Test Blog",
+    author: "Test Author",
+    url: "test/url",
+    likes: 0
+  }
+
+  await api
+  .post("/api/blogs")
+  .send(testBlog)
+  .expect(201)
+  .expect("Content-Type", /application\/json/);
+
+  blogsAtEnd = await testHelper.blogsInDB();
+  assert.strictEqual(blogsAtEnd.length, testHelper.initialBlogList.length + 1);
+  
+  const response = await api.get("/api/blogs");
+  const titles = response.body.map(blog => blog.title);
+  assert(titles.includes("Test Blog"));
+})
+
 after(async () => {
   await mongoose.connection.close();
 });
