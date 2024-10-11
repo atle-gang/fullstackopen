@@ -65,17 +65,32 @@ test.only("likes property gets added if not included in request body", async () 
     title: "Test With no Likes",
     author: "Test No Likes",
     url: "test/no/likes"
-  }
+  };
 
   const response = await api
-   .post("/api/blogs")
-   .send(blogWithNoLikes)
-   .expect(201)
-   .expect("Content-Type", /application\/json/)
-  
+    .post("/api/blogs")
+    .send(blogWithNoLikes)
+    .expect(201)
+    .expect("Content-Type", /application\/json/);
+
   assert.strictEqual(response.body.likes, 0);
-  
-})
+});
+
+test.only("a valid blog can be added", async () => {
+  const invalidBlog = {
+    author: "Test No Likes",
+    likes: 5
+  };
+
+  await api
+    .post("/api/blogs")
+    .send(invalidBlog)
+    .expect(400);
+
+  const notesAtEnd = await testHelper.blogsInDB();
+
+  assert.strictEqual(notesAtEnd.length, testHelper.initialBlogList.length);
+});
 
 after(async () => {
   await mongoose.connection.close();
