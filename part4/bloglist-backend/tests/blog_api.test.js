@@ -96,7 +96,19 @@ describe("addition of a new blog", () => {
   });
 });
 
-describe("a test can be deleted", () => {
+describe("getting  a blog by id", () => {
+  test("getting a blog with a specific id", async () => {
+    const blogsAtStart = await testHelper.blogsInDB();
+    const blogToGet = blogsAtStart[0];
+
+    await api
+      .get(`/api/blogs/${blogToGet.id}`)
+      .expect(200)
+      .expect("Content-Type", /application\/json/);
+  });
+});
+
+describe("a blog can be deleted", () => {
   test("deleting a blog", async () => {
     const blogsAtStart = await testHelper.blogsInDB();
     const blogToDelete = blogsAtStart[0];
