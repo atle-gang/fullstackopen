@@ -78,8 +78,8 @@ test.only("blog list returns correct amount of blog posts", async () => {
   const response = await api.get("/api/blogs");
 
   assert.strictEqual(response.body.length, initialBlogList.length);
-})
+});
 
 after(async () => {
-  await mongoose.connection.close()
-})
+  await mongoose.connection.close();
+});
