@@ -96,7 +96,7 @@ describe("addition of a new blog", () => {
   });
 });
 
-describe("getting  a blog by id", () => {
+describe("getting a blog by id", () => {
   test("getting a blog with a specific id", async () => {
     const blogsAtStart = await testHelper.blogsInDB();
     const blogToGet = blogsAtStart[0];
@@ -106,6 +106,31 @@ describe("getting  a blog by id", () => {
       .expect(200)
       .expect("Content-Type", /application\/json/);
   });
+});
+
+describe("updating a blog", () => {
+  test("updating a blog with a specific id", async () => {
+    const blogsAtStart = await testHelper.blogsInDB();
+    const blogToUpdate = blogsAtStart[0];
+
+    const updatedBlog = {
+      title: "Updated title",
+      url: "Updated url",
+      author: "Updated author",
+      likes: 1
+    };
+
+    await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send(updatedBlog)
+      .expect(200)
+      .expect("Content-Type", /application\/json/);
+
+    const blogsAtEnd = await testHelper.blogsInDB();
+    const titles = blogsAtEnd.map(blog => blog.title);
+    assert(titles.includes(updatedBlog.title));
+  });
+
 });
 
 describe("a blog can be deleted", () => {
