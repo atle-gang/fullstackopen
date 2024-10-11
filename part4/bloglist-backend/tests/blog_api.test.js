@@ -60,6 +60,23 @@ test.only("verify that making an HTTP POST request successfully creates a new bl
   assert(titles.includes("Test Blog"));
 });
 
+test.only("likes property gets added if not included in request body", async () => {
+  const blogWithNoLikes = {
+    title: "Test With no Likes",
+    author: "Test No Likes",
+    url: "test/no/likes"
+  }
+
+  const response = await api
+   .post("/api/blogs")
+   .send(blogWithNoLikes)
+   .expect(201)
+   .expect("Content-Type", /application\/json/)
+  
+  assert.strictEqual(response.body.likes, 0);
+  
+})
+
 after(async () => {
   await mongoose.connection.close();
 });
