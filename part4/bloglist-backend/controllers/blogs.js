@@ -20,6 +20,7 @@ blogsRouter.post('/', async (request, response, next) => {
     const result = await blog.save();
     response.status(201).json(result);
   } catch (error) {
+    response.status(400);
     next(error);
   }
 });
