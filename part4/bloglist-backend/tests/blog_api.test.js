@@ -130,7 +130,6 @@ describe("updating a blog", () => {
     const titles = blogsAtEnd.map(blog => blog.title);
     assert(titles.includes(updatedBlog.title));
   });
-
 });
 
 describe("a blog can be deleted", () => {
