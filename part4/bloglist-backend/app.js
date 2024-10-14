@@ -1,4 +1,5 @@
-const blogsRouter = require('./controllers/blogs')
+const blogsRouter = require('./controllers/blogs');
+const usersRouter = require('./controllers/users');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const config = require('./utils/config');
@@ -21,8 +22,9 @@ mongoose.connect(mongoUrl)
 
 app.use(cors());
 app.use(express.json());
-app.use(morganMiddleware)
+app.use(morganMiddleware);
 
 app.use('/api/blogs', blogsRouter);
+app.use('/api/users', usersRouter);
 
 module.exports = app; 
