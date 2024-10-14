@@ -42,6 +42,7 @@ usersRouter.post("/", async (request, response, next) => {
 
     response.status(201).json(savedUser);
   } catch (error) {
+    response.status(400).json({error: 'expected `username` to be unique'});
     next(error);
   }
 });
