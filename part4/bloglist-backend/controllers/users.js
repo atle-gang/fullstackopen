@@ -6,7 +6,21 @@ usersRouter.get("/", async (request, response, next) => {
   try {
     const users = await User.find({});
     response.json(users);
-  } catch(error) {
+  } catch (error) {
+    next(error);
+  }
+});
+
+usersRouter.get("/:id", async (request, response, next) => {
+  try {
+    const user = await User.findById(request.params.id);
+
+    if (user) {
+      response.json(user);
+    } else {
+      response.status(400).end();
+    }
+  } catch (error) {
     next(error);
   }
 });
