@@ -55,6 +55,5 @@ usersRouter.delete("/:id", async (request, response) => {
   }
 });
 
-
 module.exports = usersRouter;
 
