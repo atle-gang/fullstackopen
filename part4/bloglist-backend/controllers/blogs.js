@@ -7,18 +7,10 @@ blogsRouter.get('/info', (request, response) => {
   response.send('<h1>Blog List App</h1>');
 });
 
-const getTokenFrom = request => {
-  const authorization = request.get('authorization');
-  if (authorization && authorization.startsWith("Bearer ")) {
-    return authorization.replace("Bearer ", "");
-  }
-  return null;
-}
-
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog
-   .find({})
-   .populate("user", { name: 1, username: 1, id: 1 });
+    .find({})
+    .populate("user", { name: 1, username: 1, id: 1 });
   response.json(blogs);
 });
 
@@ -39,7 +31,8 @@ blogsRouter.post('/', async (request, response, next) => {
   try {
     const blogData = request.body;
 
-    const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET);
+    const token = request.token;
+    const decodedToken = jwt.verify(token, process.env.SECRET);
 
     if (!decodedToken.id) {
       return response.status(401).json({ error: "invalid token" });
