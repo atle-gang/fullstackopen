@@ -75,8 +75,65 @@ const testUsers = [
   }
 ]
 
+const dwightBlogs = [
+  {
+    _id: "5a422a851b54a676234d17f8",
+    title: "Beet Farming Best Practices",
+    author: "Dwight Schrute",
+    url: "https://beetfarmsuccess.com/",
+    likes: 15,
+    __v: 0
+  },
+  {
+    _id: "5a422a851b54a676234d17f9",
+    title: "The Art of Surveillance",
+    author: "Dwight Schrute",
+    url: "https://securityandprivacy.net/",
+    likes: 12,
+    __v: 0
+  },
+  {
+    _id: "5a422a851b54a676234d17fa",
+    title: "Battles and Leadership Tactics from the Civil War",
+    author: "Dwight Schrute",
+    url: "https://civilwartactics.com/",
+    likes: 22,
+    __v: 0
+  },
+];
+
+const michaelBlogs = [
+  {
+    _id: "5a422a851b54a676234d17fb",
+    title: "How to Be the World's Best Boss",
+    author: "Michael Scott",
+    url: "https://worldsbestbossguide.com/",
+    likes: 5,
+    __v: 0
+  },
+  {
+    _id: "5a422a851b54a676234d17fc",
+    title: "That's What She Said - A Compilation of the Best Jokes",
+    author: "Michael Scott",
+    url: "https://michaelscottjokes.com/",
+    likes: 8,
+    __v: 0
+  },
+  {
+    _id: "5a422a851b54a676234d17fd",
+    title: "The Finer Points of Improv Comedy",
+    author: "Michael Scott",
+    url: "https://improvgenius.com/",
+    likes: 3,
+    __v: 0
+  },
+];
+
 module.exports = {
   initialBlogList,
   blogsInDB, 
-  usersInDB
+  usersInDB,
+  testUsers,
+  dwightBlogs,
+  michaelBlogs
 };
