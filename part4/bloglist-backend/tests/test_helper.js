@@ -73,7 +73,8 @@ const testUsers = [
     username: "prisonmike",
     password: "dundermifflin"
   }
-  
+]
+
 module.exports = {
   initialBlogList,
   blogsInDB, 
