@@ -60,6 +60,64 @@ describe("get blogs posted by users", () => {
 });
 
 
+describe("addition of a new blog", () => {
+  test("verify that making an HTTP POST request successfully creates a new blog post", async () => {
+    const testBlog = {
+      title: "That's What She Said - A Compilation of the Best Jokes",
+      author: "Michael Scott",
+      url: "https://michaelscottjokes.com/",
+      likes: 8
+    };
+
+    await api
+      .post("/api/blogs")
+      .send(testBlog)
+      .set("Authorization", michaelToken)
+      .expect(201)
+      .expect("Content-Type", /application\/json/);
+
+    blogsAtEnd = await testHelper.blogsInDB();
+    assert.strictEqual(blogsAtEnd.length, (testHelper.michaelBlogs.length + testHelper.dwightBlogs.length + 1));
+
+    const response = await api.get("/api/blogs");
+    const titles = response.body.map(blog => blog.title);
+    assert(titles.includes("That's What She Said - A Compilation of the Best Jokes"));
+  });
+
+  test("likes property gets added if not included in request body", async () => {
+    const blogWithNoLikes = {
+      title: "he Finer Points of Improv Comedy",
+      author: "Michael Scott",
+      url: "https://improvgenius.com/"
+    };
+
+    const response = await api
+      .post("/api/blogs")
+      .send(blogWithNoLikes)
+      .set("Authorization", michaelToken)
+      .expect(201)
+      .expect("Content-Type", /application\/json/);
+
+    assert.strictEqual(response.body.likes, 0);
+  });
+
+  test("an invalid blog cannot be added", async () => {
+    const invalidBlog = {
+      author: "Michael Scott",
+    };
+
+    await api
+      .post("/api/blogs")
+      .send(invalidBlog)
+      .set("Authorization", michaelToken)
+      .expect(400);
+
+    const notesAtEnd = await testHelper.blogsInDB();
+
+    assert.strictEqual(notesAtEnd.length, (testHelper.michaelBlogs.length + testHelper.dwightBlogs.length));
+  });
+});
+
 after(async () => {
   await mongoose.connection.close();
 });
