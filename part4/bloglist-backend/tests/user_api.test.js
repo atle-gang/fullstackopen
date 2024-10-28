@@ -38,7 +38,7 @@ beforeEach(async () => {
   await api.post("/api/blogs").send(testHelper.michaelBlogs[2]).set("Authorization", michaelToken);
 });
 
-describe("Invalid request to users", () => {
+describe("invalid request to users", () => {
   test("test fails if username is taken", async () => {
     const usersAtStart = await testHelper.usersInDB();
 
@@ -83,9 +83,9 @@ describe("Invalid request to users", () => {
     const usersAtStart = await testHelper.usersInDB();
 
     const newUser = {
-      username: "talk",
-      name: "The Week",
-      password: "tw"
+      username: "kevmalone",
+      name: "Kevin Malone",
+      password: "km"
     };
 
     const result = await api
@@ -100,6 +100,26 @@ describe("Invalid request to users", () => {
   });
 });
 
+describe("valid request to users", () => {
+  test("user is able to create user that meets requirements", async () => {
+    const usersAtStart = await testHelper.usersInDB();
+
+    const newUser = {
+      username: "angie",
+      name: "Angela Lipton",
+      password: "dwight<3"
+    };
+
+    await api
+      .post("/api/users")
+      .send(newUser)
+      .expect(201)
+      .expect("Content-Type", /application\/json/);
+
+    const usersAtEnd = await testHelper.usersInDB();
+    assert.strictEqual(usersAtStart.length + 1, usersAtEnd.length);
+  });
+});
 
 after(async () => {
   await mongoose.connection.close();
