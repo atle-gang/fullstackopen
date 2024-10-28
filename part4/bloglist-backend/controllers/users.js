@@ -30,7 +30,7 @@ usersRouter.post("/", async (request, response, next) => {
     if (request.body.username.length < 3) {
       response.status(400).json({ error: "username is too short" });
     } else if (request.body.password.length < 3) {
-      response.status(400).json({ error: "password is too short" });
+      response.status(400).json({ error: "password is too short" })
     } else {
       const { name, username, password } = request.body;
 
@@ -48,7 +48,7 @@ usersRouter.post("/", async (request, response, next) => {
       response.status(201).json(savedUser);
     }
   } catch (error) {
-    response.status(400).end();
+    response.status(400).json({ error: 'expected `username` to be unique' });
     next(error);
   }
 });
