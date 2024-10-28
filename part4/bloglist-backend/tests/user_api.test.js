@@ -45,6 +45,7 @@ describe("Invalid request to users", () => {
     const newUser = {
       username: testHelper.testUsers[0].username,
       name: "Mark",
+      password: "iammark"
     };
 
     const result = await api
@@ -53,7 +54,27 @@ describe("Invalid request to users", () => {
       .expect(400)
       .expect("Content-Type", /application\/json/);
 
-    assert.strictEqual(result.body.error, /expected `username` to be unique/);
+    assert.strictEqual(result.body.error, "expected `username` to be unique");
+    const usersAtEnd = await testHelper.usersInDB();
+    assert.strictEqual(usersAtStart.length, usersAtEnd.length);
+  });
+
+  test("test fails if username is too short", async () => {
+    const usersAtStart = await testHelper.usersInDB();
+
+    const newUser = {
+      username: "xo",
+      name: "The Weekdy",
+      password: "xoxo"
+    };
+
+    const result = await api
+      .post("/api/users")
+      .send(newUser)
+      .expect(400)
+      .expect("Content-Type", /application\/json/);
+
+    assert.strictEqual(result.body.error, "username is too short");
     const usersAtEnd = await testHelper.usersInDB();
     assert.strictEqual(usersAtStart.length, usersAtEnd.length);
   });
