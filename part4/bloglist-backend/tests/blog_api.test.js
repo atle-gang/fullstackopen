@@ -118,6 +118,53 @@ describe("addition of a new blog", () => {
   });
 });
 
+describe("getting a blog by id", () => {
+  test("getting a blog with a specific id", async () => {
+    const blogsAtStart = await testHelper.blogsInDB();
+    const blogToGet = blogsAtStart[0];
+
+    await api
+      .get(`/api/blogs/${blogToGet.id}`)
+      .expect(200)
+      .expect("Content-Type", /application\/json/);
+  });
+});
+
+// describe("updating a blog", () => {
+//   test("updating a blog with a specific id", async () => {
+//     const blogsAtStart = await testHelper.blogsInDB();
+//     const blogToUpdate = testHelper.blogsAtStart[0];
+
+//     await api
+//       .put(`/api/blogs/${blogToUpdate.id}`)
+//       .send(updatedBlog)
+//       .expect(200)
+//       .expect("Content-Type", /application\/json/);
+
+//     const blogsAtEnd = await testHelper.blogsInDB();
+//     const titles = blogsAtEnd.map(blog => blog.title);
+//     assert(titles.includes(updatedBlog.title));
+//   });
+// });
+
+// describe("a blog can be deleted", () => {
+//   test("deleting a blog", async () => {
+//     const blogsAtStart = await testHelper.blogsInDB();
+//     const blogToDelete = blogsAtStart[0];
+
+//     await api
+//       .delete(`/api/blogs/${blogToDelete.id}`)
+//       .expect(204);
+
+//     const blogsAtEnd = await testHelper.blogsInDB();
+
+//     const ids = blogsAtEnd.map(blog => blog.id);
+//     assert(!ids.includes(blogToDelete.id));
+
+//     assert.strictEqual(blogsAtEnd.length, testHelper.initialBlogList.length - 1);
+//   });
+// });
+
 after(async () => {
   await mongoose.connection.close();
 });

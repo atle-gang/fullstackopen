@@ -113,3 +113,12 @@ module.exports = {
   dwightBlogs,
   michaelBlogs
 };
+
+  // {
+    //   _id: "5a422a851b54a676234d17fc",
+    //   title: "That's What She Said - A Compilation of the Best Jokes",
+    //   author: "Michael Scott",
+    //   url: "https://michaelscottjokes.com/",
+    //   likes: 8,
+    //   __v: 0
+    // },
