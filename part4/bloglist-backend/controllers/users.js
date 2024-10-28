@@ -27,22 +27,28 @@ usersRouter.get("/:id", async (request, response, next) => {
 
 usersRouter.post("/", async (request, response, next) => {
   try {
-    const { name, username, password } = request.body;
+    if (request.body.username.length < 3) {
+      response.status(400).json({ error: "username is too short" });
+    } else if (request.body.password.length < 3) {
+      response.status(400).json({ error: "password is too short" });
+    } else {
+      const { name, username, password } = request.body;
 
-    const saltRounds = 10;
-    const passwordHash = await bcrypt.hash(password, saltRounds);
+      const saltRounds = 10;
+      const passwordHash = await bcrypt.hash(password, saltRounds);
 
-    const user = new User({
-      username,
-      name,
-      passwordHash,
-    });
+      const user = new User({
+        username,
+        name,
+        passwordHash,
+      });
 
-    const savedUser = await user.save();
+      const savedUser = await user.save();
 
-    response.status(201).json(savedUser);
+      response.status(201).json(savedUser);
+    }
   } catch (error) {
-    response.status(400).json({error: 'expected `username` to be unique'});
+    response.status(400).end();
     next(error);
   }
 });
