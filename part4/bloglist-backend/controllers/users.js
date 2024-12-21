@@ -53,7 +53,7 @@ usersRouter.post("/", async (request, response, next) => {
   }
 });
 
-usersRouter.delete("/:id", async (request, response) => {
+usersRouter.delete("/:id", async (request, response, next) => {
   try {
     await User.findByIdAndDelete(request.params.id);
     response.status(204).end();
