@@ -1,16 +1,18 @@
-const blogsRouter = require('express').Router();
-const Blog = require('../models/blog');
-const User = require('../models/user');
-const jwt = require('jsonwebtoken');
+const blogsRouter = require("express").Router();
+const Blog = require("../models/blog");
+const User = require("../models/user");
+const jwt = require("jsonwebtoken");
 
-blogsRouter.get('/info', (request, response) => {
-  response.send('<h1>Blog List App</h1>');
+blogsRouter.get("/info", (request, response) => {
+  response.send("<h1>Blog List App</h1>");
 });
 
-blogsRouter.get('/', async (request, response) => {
-  const blogs = await Blog
-    .find({})
-    .populate("user", { name: 1, username: 1, id: 1 });
+blogsRouter.get("/", async (request, response) => {
+  const blogs = await Blog.find({}).populate("user", {
+    name: 1,
+    username: 1,
+    id: 1,
+  });
   response.json(blogs);
 });
 
@@ -27,7 +29,7 @@ blogsRouter.get("/:id", async (request, response, next) => {
   }
 });
 
-blogsRouter.post('/', async (request, response, next) => {
+blogsRouter.post("/", async (request, response, next) => {
   try {
     const blogData = request.body;
 
@@ -45,7 +47,8 @@ blogsRouter.post('/', async (request, response, next) => {
     }
 
     const blog = new Blog({
-      ...blogData, user: user.id
+      ...blogData,
+      user: user.id,
     });
 
     const savedBlog = await blog.save();
@@ -66,11 +69,15 @@ blogsRouter.put("/:id", async (request, response, next) => {
     title: body.title,
     url: body.url,
     likes: body.likes,
-    author: body.author
+    author: body.author,
   };
 
   try {
-    const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, newBlog, { new: true });
+    const updatedBlog = await Blog.findByIdAndUpdate(
+      request.params.id,
+      newBlog,
+      { new: true }
+    );
     console.log(updatedBlog, request.params.id);
     response.json(updatedBlog);
   } catch (error) {
@@ -80,7 +87,6 @@ blogsRouter.put("/:id", async (request, response, next) => {
 
 blogsRouter.delete("/:id", async (request, response, next) => {
   try {
-
     const token = request.token;
     const decodedToken = jwt.verify(token, process.env.SECRET);
 
@@ -94,6 +100,11 @@ blogsRouter.delete("/:id", async (request, response, next) => {
       const isUser = decodedToken.id;
 
       if (confirmedUser === isUser) {
+        // Remove blog reference from the user's blogs array
+        await User.findByIdAndUpdate(confirmedUser, {
+          $pull: { blogs: blog._id },
+        });
+
         await Blog.findByIdAndDelete(request.params.id);
         response.status(204).end();
       } else {
