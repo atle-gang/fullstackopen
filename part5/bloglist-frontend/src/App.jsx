@@ -16,7 +16,6 @@ const App = () => {
   const [url, setUrl] = useState("");
   const [user, setUser] = useState(null);
   const [notification, setNotification] = useState(null);
-  const [loginVisible, setLoginVisible] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,24 +49,15 @@ const App = () => {
   }, []);
 
   const loginForm = () => {
-    const hideWhenVisible = { display: loginVisible ? "none" : "" };
-    const showWhenVisible = { display: loginVisible ? "" : "none" };
-
     return (
       <>
-        <div style={hideWhenVisible}>
-          <button onClick={() => setLoginVisible(true)}>login</button>
-        </div>
-        <div style={showWhenVisible}>
-          <LoginForm
-            username={username}
-            password={password}
-            handleUsernameChange={({ target }) => setUsername(target.value)}
-            handlePasswordChange={({ target }) => setPassword(target.value)}
-            handleSubmit={handleLogin}
-          />
-          <button onClick={() => setLoginVisible(false)}>cancel</button>
-        </div>
+        <LoginForm
+          username={username}
+          password={password}
+          handleUsernameChange={({ target }) => setUsername(target.value)}
+          handlePasswordChange={({ target }) => setPassword(target.value)}
+          handleSubmit={handleLogin}
+        />
       </>
     );
   };
@@ -98,10 +88,12 @@ const App = () => {
         <p>
           {user.name} logged in <button onClick={handleLogout}>log out</button>
         </p>
-        {/* {blogs.map((blog) => (
-          <Blog key={blog.id} blog={blog} />
-        ))} */}
-        <BlogList blogs={blogs} saveLikeFunction={saveLike} deleteFunction={deleteBlog} user={user} />
+        <BlogList
+          blogs={blogs}
+          saveLikeFunction={saveLike}
+          deleteFunction={deleteBlog}
+          user={user}
+        />
       </>
     );
   };
