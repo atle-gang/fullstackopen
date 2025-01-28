@@ -84,8 +84,8 @@ const App = () => {
   const blogList = () => {
     return (
       <>
-        <h2>Blogs</h2>
-        <p>
+        <h2 data-testid="blogs-header">Blogs</h2>
+        <p data-testid="user-has-logged-in">
           {user.name} logged in <button onClick={handleLogout}>log out</button>
         </p>
         <BlogList
