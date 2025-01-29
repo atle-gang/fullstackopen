@@ -5,14 +5,14 @@ describe("Blog app", () => {
     await page.goto("http://localhost:5173");
   });
 
-    test("Login form is shown", async ({ page }) => {
+    test("Displays the login form", async ({ page }) => {
       const headingLocator = page.getByRole("heading", { name: "Login" });
       const buttonLocator = page.getByRole("button", { name: "login" });
       await expect(headingLocator).toBeVisible();
       await expect(buttonLocator).toBeVisible();
     });
 
-  test("User can successfully log in", async ({ page }) => {
+  test("Allows user to log in successfully", async ({ page }) => {
     await page.getByTestId("username").fill("test-user");
     await page.getByTestId("password").fill("test123");
     await page.getByRole("button", { name: "login" }).click();
@@ -23,8 +23,9 @@ describe("Blog app", () => {
     await expect(userHasLoggedIn).toBeVisible();
   });
 
+  // TODO: Improve test for notification visibility
   // Had a hard time testing the Notification component that outputs a message when login is unsuccessful
-  test("User unsuccessfully tries to log in", async ({ page }) => {
+  test("User fails to log in", async ({ page }) => {
     await page.getByTestId("username").fill("test-user");
     await page.getByTestId("password").fill("123test");
     await page.getByRole("button", { name: "login" }).click();
