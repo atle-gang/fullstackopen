@@ -1,16 +1,25 @@
 const { test, beforeEach, expect, describe } = require("@playwright/test");
 
 describe("Blog app", () => {
-  beforeEach(async ({ page }) => {
+  beforeEach(async ({ page, request }) => {
+    await request.post("http://localhost:3001/api/testing/reset");
+    await request.post("http://localhost:3001/api/users", {
+      data: {
+        name: "Test User",
+        username: "test-user",
+        password: "test123",
+      },
+    });
+
     await page.goto("http://localhost:5173");
   });
 
-    test("Displays the login form", async ({ page }) => {
-      const headingLocator = page.getByRole("heading", { name: "Login" });
-      const buttonLocator = page.getByRole("button", { name: "login" });
-      await expect(headingLocator).toBeVisible();
-      await expect(buttonLocator).toBeVisible();
-    });
+  test("Displays the login form", async ({ page }) => {
+    const headingLocator = page.getByRole("heading", { name: "Login" });
+    const buttonLocator = page.getByRole("button", { name: "login" });
+    await expect(headingLocator).toBeVisible();
+    await expect(buttonLocator).toBeVisible();
+  });
 
   test("Allows user to log in successfully", async ({ page }) => {
     await page.getByTestId("username").fill("test-user");
