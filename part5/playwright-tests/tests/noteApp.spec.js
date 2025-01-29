@@ -22,4 +22,14 @@ describe("Blog app", () => {
     await expect(blogHeader).toBeVisible();
     await expect(userHasLoggedIn).toBeVisible();
   });
+
+  // Had a hard time testing the Notification component that outputs a message when login is unsuccessful
+  test("User unsuccessfully tries to log in", async ({ page }) => {
+    await page.getByTestId("username").fill("test-user");
+    await page.getByTestId("password").fill("123test");
+    await page.getByRole("button", { name: "login" }).click();
+
+    const loginHeader = page.locator('[data-testid="login-header"]');
+    await expect(loginHeader).toBeVisible();
+  });
 });
