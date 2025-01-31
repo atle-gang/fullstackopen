@@ -52,18 +52,9 @@ describe("Blog app", () => {
       await page.getByTestId("username").fill("test-user");
       await page.getByTestId("password").fill("test123");
       await page.getByRole("button", { name: "login" }).click();
-    });
 
-    test("User creates a new blog", async ({ page }) => {
-      // Ensure user sees empty state message
-      await expect(page.getByText("No blogs found. Create your first blog")).toBeVisible();
-
-      // Check to see if "new button" is visible
-      await page.getByRole("button", { name: "new blog"}).click()
-
-      // Check to see if form header gets rendered after previous click
-      await expect(page.getByText("Create new blog")).toBeVisible()
-
+      // Click 'new button' to open blog form
+      await page.getByRole("button", { name: "new blog" }).click();
       // Fill in the form
       await page.getByTestId("title").fill("Title Test");
       await page.getByTestId("author").fill("Author Test");
@@ -71,9 +62,10 @@ describe("Blog app", () => {
 
       // Click 'create' button
       await page.getByRole("button", { name: "create" }).click();
-      // Check if new blog appears in the list
-      const blogList = page.locator('[data-testid="blog-list"]')
-      expect(blogList.getByText);
+    });
+
+    test("User creates a new blog", async ({ page }) => {
+      await expect(page.getByText("Title Test by Author Test has been added")).toBeVisible();
     });
   });
 });
