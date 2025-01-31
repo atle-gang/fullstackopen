@@ -65,7 +65,16 @@ describe("Blog app", () => {
     });
 
     test("User creates a new blog", async ({ page }) => {
-      await expect(page.getByText("Title Test by Author Test has been added")).toBeVisible();
+      await expect(
+        page.getByText("Title Test by Author Test has been added")
+      ).toBeVisible();
+    });
+
+    test("User can like a blog", async ({ page }) => {
+      await page.getByRole("button", { name: "view" }).click();
+      await page.getByRole("button", { name: "like" }).click();
+
+      await expect(page.getByText("likes 1")).toBeVisible();
     });
   });
 });
