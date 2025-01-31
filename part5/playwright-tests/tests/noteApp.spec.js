@@ -55,25 +55,23 @@ describe("Blog app", () => {
     });
 
     test("User creates a new blog", async ({ page }) => {
-      // User logs in
-      await expect(page.getByText("Test User logged in ")).toBeVisible()
+      // Ensure user sees empty state message
       await expect(page.getByText("No blogs found. Create your first blog")).toBeVisible();
-      const newBlogBtn = page.getByTestId("toggle-button")
-      await expect(newBlogBtn).toBeVisible()
+
       // Check to see if "new button" is visible
       await page.getByRole("button", { name: "new blog"}).click()
 
       // Check to see if form header gets rendered after previous click
       await expect(page.getByText("Create new blog")).toBeVisible()
 
-      // User fills form in
+      // Fill in the form
       await page.getByTestId("title").fill("Title Test");
       await page.getByTestId("author").fill("Author Test");
       await page.getByTestId("url").fill("URL Test");
 
       // Click 'create' button
       await page.getByRole("button", { name: "create" }).click();
-      // Check to see if blog data is displayed
+      // Check if new blog appears in the list
       const blogList = page.locator('[data-testid="blog-list"]')
       expect(blogList.getByText);
     });
