@@ -32,7 +32,7 @@ const BlogList = ({ blogs, saveLikeFunction, deleteFunction, user }) => {
   const sortedBlogs = userBlogs.map(mappingFunction).sort(compareFun);
 
   return (
-    <div>
+    <div data-test-id="blog-list">
       {sortedBlogs.length > 0 ? (
         sortedBlogs
       ) : (
