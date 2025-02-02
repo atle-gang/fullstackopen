@@ -79,8 +79,22 @@ describe("Blog app", () => {
 
     test("User can see the blog's remove button", async ({ page }) => {
       await page.getByRole("button", { name: "view" }).click();
-      const removeBtn = page.getByRole("button", { name: "remove"});
+      const removeBtn = page.getByRole("button", { name: "remove" });
       await expect(removeBtn).toBeVisible();
-    }) 
+    });
+
+    test("User can delete a blog", async ({ page }) => {
+      page.on("dialog", async (dialog) => {
+        console.log(dialog.message());
+        await dialog.accept();
+      });
+
+      await page.getByRole("button", { name: "view" }).click();
+      await page.getByRole("button", { name: "remove" }).click();
+
+      await expect(
+        page.getByText("Deleted Title Test from your blogs.")
+      ).toBeVisible();
+    });
   });
 });
