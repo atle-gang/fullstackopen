@@ -76,5 +76,11 @@ describe("Blog app", () => {
 
       await expect(page.getByText("likes 1")).toBeVisible();
     });
+
+    test("User can see the blog's remove button", async ({ page }) => {
+      await page.getByRole("button", { name: "view" }).click();
+      const removeBtn = page.getByRole("button", { name: "remove"});
+      await expect(removeBtn).toBeVisible();
+    }) 
   });
 });
