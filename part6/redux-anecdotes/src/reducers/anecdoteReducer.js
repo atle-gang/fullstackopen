@@ -27,6 +27,13 @@ const createAnecdote = (content) => {
   };
 };
 
+const increaseVote = (id) => {
+  return {
+    type: "INCREMENT",
+    payload: { id: id },
+  };
+};
+
 const compareVotes = (a, b) => {
   if (a.votes < b.votes) {
     return 1;
@@ -60,18 +67,5 @@ const reducer = (state = initialState, action) => {
   return state;
 };
 
-export { reducer, createAnecdote };
+export { reducer, createAnecdote, increaseVote };
 
-// const compareVotes = (a, b) => {
-//   if (a.votes < b.votes) {
-//     return -1;
-//   }
-//   if (a.votes > b.votes) {
-//     return 1;
-//   }
-//   return 0;
-// };
-
-// const anecdotesAsObjects = anecdotesAtStart.map(asObject);
-// const anecdotesSortedByVotes = anecdotesAsObjects.sort(compareVotes);
-// const initialState = anecdotesSortedByVotes
