@@ -68,4 +68,3 @@ const reducer = (state = initialState, action) => {
 };
 
 export { reducer, createAnecdote, increaseVote };
-
