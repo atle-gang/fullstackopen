@@ -97,4 +97,41 @@ describe("Blog app", () => {
       ).toBeVisible();
     });
   });
+
+  describe("Blogs are ordered by number of likes", () => {
+    beforeEach(async ({ page }) => {
+      await page.getByTestId("username").fill("test-user");
+      await page.getByTestId("password").fill("test123");
+      await page.getByRole("button", { name: "login" }).click();
+
+      await page.getByRole("button", { name: "new blog" }).click();
+      await page.getByTestId("title").fill("Title Test");
+      await page.getByTestId("author").fill("Author Test");
+      await page.getByTestId("url").fill("URL Test");
+      await page.getByRole("button", { name: "create" }).click();
+      await page.waitForSelector(
+        "text=Title Test by Author Test has been added"
+      );
+
+      await page.getByTestId("title").fill("Second Title Test");
+      await page.getByTestId("author").fill("Second Author Test");
+      await page.getByTestId("url").fill("Second URL Test");
+      await page.getByRole("button", { name: "create" }).click();
+      await page.waitForSelector(
+        "text=Second Title Test by Second Author Test has been added"
+      );
+
+      await page.getByRole("button", { name: "view" }).nth(1).click();
+      await page.getByRole("button", { name: "like" }).click();
+      await page.waitForSelector(
+        "text=You liked Second Title Test"
+      );
+      await page.screenshot({ path: "debug.png", fullPage: true });
+    });
+
+    test("Displays blogs in descending order", async ({ page }) => {
+      const blogItems = await page.getByTestId("blogs").allTextContents();
+      expect(blogItems).toEqual([ "Second Title Test", "Title Test"]);
+    });
+  });
 });
