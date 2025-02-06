@@ -15,6 +15,7 @@ const BlogList = ({ blogs, saveLikeFunction, deleteFunction, user }) => {
   const mappingFunction = (blog) => {
     return (
       <Blog
+        data-testid="blogs"
         key={blog.id}
         blog={blog}
         saveLikeFunction={saveLikeFunction}
