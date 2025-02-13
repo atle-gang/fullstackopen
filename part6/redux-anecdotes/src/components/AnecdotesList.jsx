@@ -7,9 +7,6 @@ const AnecdotesList = () => {
   const filter = useSelector((state) => state.filter);
   const dispatch = useDispatch();
 
-  console.log("Anecdotes:", anecdotes);
-
-
   const filteredAnecdotes = anecdotes.filter((anecdote) =>
     anecdote.content.toLowerCase().includes(filter.toLowerCase())
   );
