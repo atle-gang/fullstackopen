@@ -4,12 +4,12 @@ import { Filter } from "./components/Filter";
 import { Notification } from "./components/Notification";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { initializeAnecdotes } from "./reducers/anecdoteReducer";
+import { initialiseAnecdotes } from "./reducers/anecdoteReducer";
 
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(initializeAnecdotes());
+    dispatch(initialiseAnecdotes());
   }, []);
 
   return (
