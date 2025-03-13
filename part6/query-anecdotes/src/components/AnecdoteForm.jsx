@@ -15,6 +15,12 @@ const AnecdoteForm = () => {
         `You have added: "${newAnecdote.content}"`
       );
     },
+    onError: () => {
+      setNotification(
+        notificationDispatch,
+        `Your anecdote must have a length of 5 or more`
+      );
+    },
   });
 
   const onCreate = (event) => {
