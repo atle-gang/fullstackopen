@@ -53,7 +53,7 @@ const App = () => {
         <h1>Software anecdotes</h1>
         <Menu />
         <Routes>
-          <Route path="/:id" element={<Anecdote anecdotes={anecdotes} />} />
+          <Route path="/anecdotes/:id" element={<Anecdote anecdotes={anecdotes} />} />
           <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />
           <Route path="/create" element={<CreateNew addNew={addNew} />} />
           <Route path="/about" element={<About />} />
